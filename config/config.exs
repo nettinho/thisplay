@@ -13,7 +13,7 @@ config :thisplay,
 
 # Configures the endpoint
 config :thisplay, ThisplayWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "0.0.0.0"],
   adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
     formats: [html: ThisplayWeb.ErrorHTML, json: ThisplayWeb.ErrorJSON],

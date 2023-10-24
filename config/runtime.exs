@@ -20,6 +20,9 @@ if System.get_env("PHX_SERVER") do
   config :thisplay, ThisplayWeb.Endpoint, server: true
 end
 
+config :thisplay, GoogleVisionAPI,
+  api_key: System.get_env("THISPLAY_GOOGLE_API_KEY") || "<YOUR API KEY HERE>"
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
@@ -48,7 +51,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
+  host = System.get_env("PHX_HOST") || "thisplay.es"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :thisplay, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")

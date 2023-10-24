@@ -1,0 +1,24 @@
+<div class="content">
+  <.link href={~p"/"} class="header">
+    <div class="logo"><img src="/images/logo.svg" alt="" /></div>
+  </.link>
+  <div class="volver"><img src="/images/regresar.svg" alt="" onclick="goBack()" /></div>
+  <div class="tituloupload">Juguetes que hemos encontrado en la foto</div>
+  <div class="upload">
+    <div :for={toy <- @toys}>
+      <img src={"/" <> toy.filename} />
+      <%= toy.name %>
+      <div phx_value_id={"#{toy.id}"} phx-click="delete" class="borrar">
+        <img src="/images/borrar.svg" alt="" />
+      </div>
+    </div>
+  </div>
+  <.link href={~p"/list"} class="card">
+    <button>ACEPTAR</button>
+  </.link>
+</div>
+<script>
+  function goBack() {
+      window.history.back(); // Esta línea navegará hacia atrás en la historia del navegador
+  }
+</script>

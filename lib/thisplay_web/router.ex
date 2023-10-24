@@ -17,13 +17,24 @@ defmodule ThisplayWeb.Router do
   scope "/", ThisplayWeb do
     pipe_through :browser
 
+    # live_session :session, on_mount: ThisplayWeb.Session do
     live "/", HomeLive
+    live "/list", ListLive
+    live "/upload/:id", UploadLive
+    live "/search", SearchLive
+    live "/detail", DetailLive
+    # end
+
+    get("/uploads/:image", ImageController, :uploads)
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ThisplayWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", ThisplayWeb do
+    pipe_through :api
+
+    resources "/filename", DocumentController, except: [:new, :edit]
+    resources "/toys", ToyController, except: [:new, :edit]
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:thisplay, :dev_routes) do

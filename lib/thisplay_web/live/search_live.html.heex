@@ -1,0 +1,52 @@
+<div class="content">
+  <.link href={~p"/"} class="header">
+    <div class="logo"><img src="images/logo.svg" alt="" /></div>
+  </.link>
+  <div class="volver"><img src="images/regresar.svg" alt="" onclick="goBack()" /></div>
+  <div class="headtop">
+    <img class="iconotier" src="images/searchp.svg" alt="" />
+    <div class="labus">
+      <div class="titulob">Creemos que los andas buscando</div>
+      <div class="buscador">Introduce aquí tu deseo...</div>
+    </div>
+  </div>
+  <div class="tags">
+    <div class="categoria">dinosaurios</div>
+    <div class="categoria">coches</div>
+    <div class="categoria">verde</div>
+    <div class="categoria">animales</div>
+    <div class="categoria">digital</div>
+    <div class="categoria">rompecabezas</div>
+  </div>
+  <div class="catalogo">
+    <.link href={~p"/detail"} class="card">
+      <img src="images/rex.jpeg" alt="" />
+      <div class="title">REX</div>
+    </.link>
+    <div class="card">
+      <img src="images/terrenator.jpeg" alt="" />
+      <div class="title">Terrenator</div>
+    </div>
+    <div class="card">
+      <img src="images/tamagochi.jpg" alt="" />
+      <div class="title">Tamagochi</div>
+    </div>
+    <div class="card">
+      <img src="images/puzle.jpg" alt="" />
+      <div class="title">Puzle 16x16</div>
+    </div>
+    <div class="card">
+      <img src="images/peluche.jpg" alt="" />
+      <div class="title">Peluche elefante</div>
+    </div>
+    <div class="card">
+      <img src="images/furby.jpg" alt="" />
+      <div class="title">Furby</div>
+    </div>
+  </div>
+</div>
+<script>
+  function goBack() {
+      window.history.back(); // Esta línea navegará hacia atrás en la historia del navegador
+  }
+</script>

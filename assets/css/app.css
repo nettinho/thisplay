@@ -3,3 +3,367 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700;900&display=swap');
+
+body{
+  font-family: 'Montserrat', sans-serif;
+    background-image: url(../images/SVG/back.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+img{
+    width: 100%;
+    height: auto
+}
+.header{
+display: flex;
+align-items: center
+}
+
+.logo{
+    width: 180px;
+}
+.content{
+    margin: auto;
+    max-width: 960px;
+    width: 100%;
+    background-color: #F8F8FF;
+    border-radius: 20px;
+    padding: 20px;
+    box-sizing: border-box
+}
+#upload-form input{
+  border:4px dashed #f2f2f2;
+  border-radius: 20px;
+  padding: 20px;
+  margin: auto;
+  color: #F8F8FF;
+  width: 100%;
+}
+input[type="file"]::file-selector-button {
+  height: 200px;
+  border:4px dashed #f2f2f2;
+  border-radius: 20px;
+  padding: 20px;
+  margin: auto;
+  background-image: url(../images/SVG/camara.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100px;
+  font-size: 0px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.textph{
+    text-align: center;
+    color: #4a4a4a;
+    padding-top: 30px;
+    font-weight: 900;
+    
+}
+.icono{
+    width: 100px;
+    margin: auto
+}
+.acciones{
+    display: flex;
+    flex-flow: row nowrap;
+    align-content: space-between;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding: 50px 0 150px 0
+}
+
+.acciones .icono{
+    width: 60px
+}
+
+.comun{
+    width: 48%;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px
+}
+.buscarapp{
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+}
+.seleccionarf{
+    background-color: #C20105
+}
+.seleccionarb{
+    background-color: #FDAF00
+}
+button:hover{
+    background-color: #3E9EED !important
+}
+.seleccionarf:hover{
+    background-color: #3E9EED !important
+}
+.seleccionarb:hover{
+    background-color: #3E9EED !important
+}
+button{
+    background-color: #57509D !important;
+    padding: 10px 20px;
+    display: block;
+    margin:10px auto;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Tier */
+.top{
+    display: flex;
+    flex-flow: row wrap;
+    padding-bottom: 100px;
+    justify-content: center;
+}
+.tier{
+    padding-top: 40px
+}
+.iconotier{
+    width: 60px;
+    margin-right: 20px
+}
+.headtop{
+    display: flex;
+    width: 100%;
+    flex-flow: row;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 900
+}
+.toy{
+    width: 200px;
+    margin-bottom: 10px;
+}
+.foto{
+    width: 100px;
+    height: 100px;
+    background-image:url(../images/rex.jpeg);
+    background-size: cover;
+    background-position: center;
+    border-radius: 100px;
+    margin: auto;
+    display: block;
+}
+
+.posicion{
+    text-align: center;
+    font-size: 34px;
+    font-weight: 900
+}
+.dos{
+    text-align: center;
+    font-size: 34px;
+    font-weight: 900
+}
+.tres{
+    text-align: center;
+    font-size: 34px;
+    font-weight: 900
+}
+.headtier{
+    display: flex;
+    width: 100%;
+    flex-flow: row;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 300;
+    padding-bottom: 20px
+}
+.gris{
+    width: 60px;
+    position: relative;
+    top:0;
+    left: 0;
+    height: 60px;
+    border-radius: 120px;
+    margin: auto;
+    display: block;
+}
+.gris .foto{
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 120px;
+    margin: auto;
+    display: block;
+}
+.velo{
+    position: absolute;
+    top:0;
+    left: 0;
+    background-color: #4a4a4a78;
+    z-index: 99;
+    top: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 120px;
+}
+
+/* Search */
+.catalogo{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+.card{
+    width: 30%;
+    background-color: #fff;
+    margin: 1%;
+    display: flex;
+    flex-flow: column;
+    justify-content: end;
+    padding: 15px;
+    border-radius: 20px;
+}
+.title{
+    font-size: 12px;
+    padding-top: 10px;
+}
+.tags{
+    display: flex;
+    flex-wrap: wrap;
+}
+.categoria{
+    background-color: #D3D3F4;
+    padding: 2px 15px;
+    font-size: 10px;
+    border: 2px solid #57509D;
+    margin: 5px;
+    border-radius: 50px;
+}
+.labus{
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+}
+.buscador{
+    background-color: #fff;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 400;
+    border: 1px solid #4a4a4a;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+/* Detail */
+
+.producto{
+    display: flex;
+    flex-flow: row nowrap;
+    padding:0px 0 50px 0 ;
+}
+.producto img{
+    width: 50%;
+}
+.producto .title{
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.producto .info{
+    width: 50%;
+    padding: 20px;
+}
+.numero{
+    font-size: 34px;
+    font-weight: 900;
+}
+.posi{
+    font-size: 16px;
+}
+.botonshere{
+    background-color: #57509D !important;
+    padding: 10px 20px;
+    display: block;
+    margin:10px auto;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.botonshere:hover{
+    background-color: #3E9EED !important
+}
+.mandar{
+    width: 18px !important;
+}
+.volver{
+    width: 20px;
+    padding-top: 20px;
+}
+
+.upload img{
+    width: 180px;
+}
+.upload > div{
+    width: 180px;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    position: relative;
+}
+.upload{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: end;
+}
+.tituloupload{
+    font-size: 24px;
+    font-weight: 600;
+    padding-bottom: 30px;
+}
+.borrar{
+    position: absolute;
+    z-index: 99;
+    top: 0;
+    right: 10px;
+    width: 20px !important;
+    background-color: #fff;
+    border-radius: 120px;
+}
+/* Mobile */
+
+
+@media screen and  (max-width: 500px){
+    .acciones{
+        flex-flow: column 
+    }
+    .comun{
+        margin-bottom: 30px;
+        width: 100%
+    }
+    .producto{
+        flex-flow: column;
+    }
+    .producto img{
+        width: 100%;
+    }
+    .producto .info{
+        width: 100%;
+    }
+    .top .card{
+        width: 100%;
+        background-color: transparent;
+        
+    }
+    .toy{
+        width: 50%;
+    }
+}
