@@ -32,6 +32,7 @@ defmodule Thisplay.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.7.9"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.10"},
@@ -54,7 +55,12 @@ defmodule Thisplay.MixProject do
       {:httpoison, "~> 2.1"},
       {:vix, "~> 0.23.1"},
       {:image, "~> 0.38.3"},
-      {:mogrify, "~> 0.9.3"}
+      {:mogrify, "~> 0.9.3"},
+      {:pgvector, "~> 0.2.0"},
+      {:joken, "~> 2.5"},
+      {:req, "~> 0.4.5"},
+      {:goth, "~> 1.4.2"},
+      {:gcs_signed_url, "~> 0.4.6"}
     ]
   end
 

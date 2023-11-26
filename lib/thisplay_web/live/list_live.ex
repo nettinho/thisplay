@@ -1,43 +1,41 @@
 defmodule ThisplayWeb.ListLive do
+  alias Thisplay.Toys
   use ThisplayWeb, :live_view
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
+    %{id: user_id} = socket.assigns.current_user
+
+    toys =
+      user_id
+      |> Toys.list_toys_by_user()
+      |> Enum.map(&%{&1 | filename: first_filename(&1), count: count_toys(&1)})
+
+    top3 =
+      toys
+      |> Enum.sort_by(& &1.count, :desc)
+      |> Enum.take(3)
+
+    top_new =
+      toys
+      |> Enum.sort_by(& &1.inserted_at, :desc)
+      |> Enum.take(3)
+
+    rest = (toys -- top3) |> Kernel.--(top_new)
+
     {:ok,
      socket
-     |> assign(:uploaded_files, [])
-     |> allow_upload(:avatar, accept: ~w(.jpg .jpeg), max_entries: 2)}
+     |> assign(:toys, toys)
+     |> assign(:top3, top3)
+     |> assign(:top_new, top_new)
+     |> assign(:rest, rest)}
   end
 
-  @impl Phoenix.LiveView
-  def handle_event("validate", _params, socket) do
-    {:noreply, socket}
-  end
+  def first_filename(%{toy_pictures: [%{filename: filename} | _]}), do: public_src(filename)
+  def first_filename(_), do: ""
+  def count_toys(%{toy_pictures: [_ | _] = toys}), do: Enum.count(toys)
+  def count_toys(_), do: 0
 
-  @impl Phoenix.LiveView
-  def handle_event("cancel-upload", %{"ref" => ref}, socket) do
-    {:noreply, cancel_upload(socket, :avatar, ref)}
-  end
-
-  @impl Phoenix.LiveView
-  def handle_event("save", _params, socket) do
-    uploaded_files =
-      consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
-        dest = Path.join([:code.priv_dir(:thisplay), "static", "uploads", Path.basename(path)])
-        dest = (dest <> ".jpg") |> IO.inspect(label: "file")
-        File.cp!(path, dest)
-
-        dest
-        |> GoogleVisionAPI.detect_objects()
-        |> IO.inspect(label: "AQUI")
-
-        {:ok, ~p"/uploads/#{Path.basename(dest)}"}
-      end)
-
-    {:noreply, update(socket, :uploaded_files, &(&1 ++ uploaded_files))}
-  end
-
-  defp error_to_string(:too_large), do: "Too large"
-  defp error_to_string(:too_many_files), do: "You have selected too many files"
-  defp error_to_string(:not_accepted), do: "You have selected an unacceptable file type"
+  def public_src(filename),
+    do: VertexAI.google_storage_signed_url(filename)
 end

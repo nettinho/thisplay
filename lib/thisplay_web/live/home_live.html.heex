@@ -2,56 +2,31 @@
   <div class="header">
     <div class="logo"><img src="images/logo.svg" alt="" /></div>
   </div>
-  <div class="textph">Sube una foto para empezar a distrutar</div>
-  <form id="upload-form" phx-submit="save" phx-change="validate">
-    <.live_file_input upload={@uploads.avatar} />
-    <button type="submit">Upload</button>
-  </form>
 
-  <%!-- use phx-drop-target with the upload ref to enable file drag and drop --%>
-  <section phx-drop-target={@uploads.avatar.ref}>
-    <%!-- render each avatar entry --%>
-    <%= for entry <- @uploads.avatar.entries do %>
-      <article class="upload-entry">
-        <figure>
-          <.live_img_preview entry={entry} />
-          <figcaption><%= entry.client_name %></figcaption>
-        </figure>
+  <div :if={@uploading}>
+    <div class="tituloupload">Subiendo la foto...</div>
+    <img src="/images/uploading.gif" alt="" />
+  </div>
+  <div :if={not @uploading}>
+    <div class="textph">Sube una foto para empezar a distrutar</div>
+    <div class="disclaimeroupload">
+      <b>Atención:</b>
+      No suban fotos privadas. No nos hacemos responsables de la seguridad de los contenidos compartidos.
+    </div>
 
-        <%!-- entry.progress will update automatically for in-flight entries --%>
-        <progress value={entry.progress} max="100"><%= entry.progress %>%</progress>
+    <form id="upload-form" phx-submit="save" phx-change="validate">
+      <.live_file_input upload={@uploads.avatar} />
+    </form>
 
-        <%!-- a regular click event whose handler will invoke Phoenix.LiveView.cancel_upload/3 --%>
-        <button
-          type="button"
-          phx-click="cancel-upload"
-          phx-value-ref={entry.ref}
-          aria-label="cancel"
-        >
-          &times;
-        </button>
-
-        <%!-- Phoenix.Component.upload_errors/2 returns a list of error atoms --%>
-        <%= for err <- upload_errors(@uploads.avatar, entry) do %>
-          <p class="alert alert-danger"><%= error_to_string(err) %></p>
-        <% end %>
-      </article>
-    <% end %>
-
-    <%!-- Phoenix.Component.upload_errors/1 returns a list of error atoms --%>
-    <%= for err <- upload_errors(@uploads.avatar) do %>
-      <p class="alert alert-danger"><%= error_to_string(err) %></p>
-    <% end %>
-  </section>
-
-  <div class="acciones">
-    <.link href={~p"/search"} class="seleccionarb comun">
-      <div class="icono"><img src="images/SVG/buscar.svg" alt="" /></div>
-      <div class="buscarapp">Una nueva sonrisa te espera</div>
-    </.link>
-    <.link href={~p"/list"} class="seleccionarf comun">
-      <div class="icono"><img src="images/SVG/caja.svg" alt="" /></div>
-      <div class="buscarapp">Tier list</div>
-    </.link>
+    <div class="acciones">
+      <.link href={~p"/search"} class="seleccionarb comun">
+        <div class="icono"><img src="images/SVG/buscar.svg" alt="" /></div>
+        <div class="buscarapp">Una nueva sonrisa te espera</div>
+      </.link>
+      <.link href={~p"/list"} class="seleccionarf comun">
+        <div class="icono"><img src="images/SVG/caja.svg" alt="" /></div>
+        <div class="buscarapp">Tier list</div>
+      </.link>
+    </div>
   </div>
 </div>

@@ -19,7 +19,6 @@ defmodule ThisplayWeb.ToyJSON do
     %{
       id: toy.id,
       name: toy.name,
-      filename: toy.filename,
       frequency: toy.frequency
     }
   end

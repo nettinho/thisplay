@@ -7,86 +7,33 @@
     <div class="headtop">
       <div class="iconotier"><img src="images/SVG/cajap.svg" alt="" /></div>TOP JUGUETES USADOS
     </div>
-
     <div class="top">
-      <div class="toy primero">
-        <img class="foto" src="" alt="" />
-        <div class="posicion">1</div>
-      </div>
-      <div class="toy segundo">
-        <img class="foto" src="" alt="" />
-        <div class="posicion dos">2</div>
-      </div>
-      <div class="toy tercero">
-        <img class="foto" src="" alt="" />
-        <div class="posicion tres">3</div>
+      <div :for={toy <- @top3} class="toy">
+        <img class="foto" src={toy.filename} alt="" />
+        <div class="posicion"><%= toy.name %> <span>[ <%= toy.count %> ]</span></div>
       </div>
     </div>
+    <div class="headtop">
+      <div class="iconotier"><img src="images/SVG/cajap.svg" alt="" /></div>JUGUETES NUEVOS
+    </div>
+    <div class="top">
+      <div :for={toy <- @top_new} class="toy">
+        <img class="foto" src={toy.filename} alt="" />
+        <div class="posicion"><%= toy.name %></div>
+      </div>
+    </div>
+
     <div class="donacion">
       <div class="headtier">
         <div class="iconotier"></div>NO SON LOS FAVORITOS
       </div>
-      <div class="top">
-        <.link href={~p"/detail"} class="toy">
+      <div class="top-not-fav">
+        <.link :for={toy <- @rest} href={~p"/detail/#{toy.id}"} class="toy-not-fav">
           <div class="gris">
             <div class="velo"></div>
-            <img class="foto" src="" alt="" />
+            <img class="foto" src={toy.filename} alt="" />
           </div>
         </.link>
-        <div class="toy">
-          <div class="gris">
-            <div class="velo"></div>
-            <img class="foto" src="" alt="" />
-          </div>
-        </div>
-        <div class="toy">
-          <div class="gris">
-            <div class="velo"></div>
-            <img class="foto" src="" alt="" />
-          </div>
-        </div>
-        <div class="toy">
-          <div class="gris">
-            <div class="velo"></div>
-            <img class="foto" src="" alt="" />
-          </div>
-        </div>
-        <div class="toy">
-          <div class="gris">
-            <div class="velo"></div>
-            <img class="foto" src="" alt="" />
-          </div>
-        </div>
-        <div class="toy">
-          <div class="gris">
-            <div class="velo"></div>
-            <img class="foto" src="" alt="" />
-          </div>
-        </div>
-        <div class="toy">
-          <div class="gris">
-            <div class="velo"></div>
-            <img class="foto" src="" alt="" />
-          </div>
-        </div>
-        <div class="toy">
-          <div class="gris">
-            <div class="velo"></div>
-            <img class="foto" src="" alt="" />
-          </div>
-        </div>
-        <div class="toy">
-          <div class="gris">
-            <div class="velo"></div>
-            <img class="foto" src="" alt="" />
-          </div>
-        </div>
-        <div class="toy">
-          <div class="gris">
-            <div class="velo"></div>
-            <img class="foto" src="" alt="" />
-          </div>
-        </div>
       </div>
     </div>
   </div>

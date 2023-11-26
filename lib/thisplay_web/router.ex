@@ -1,6 +1,18 @@
 defmodule ThisplayWeb.Router do
   use ThisplayWeb, :router
 
+  import ThisplayWeb.UserAuth
+
+  alias ThisplayWeb.Plug.CheckCsrf
+  alias ThisplayWeb.Plug.RemoveGCsrf
+
+  pipeline :google do
+    plug Plug.Parsers, parsers: [:urlencoded], pass: ["text/html"]
+    plug CheckCsrf
+    plug :fetch_session
+    plug :fetch_live_flash
+  end
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +20,8 @@ defmodule ThisplayWeb.Router do
     plug :put_root_layout, html: {ThisplayWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
+    plug RemoveGCsrf
   end
 
   pipeline :api do
@@ -15,15 +29,13 @@ defmodule ThisplayWeb.Router do
   end
 
   scope "/", ThisplayWeb do
-    pipe_through :browser
+    pipe_through :google
 
-    # live_session :session, on_mount: ThisplayWeb.Session do
-    live "/", HomeLive
-    live "/list", ListLive
-    live "/upload/:id", UploadLive
-    live "/search", SearchLive
-    live "/detail", DetailLive
-    # end
+    post "/g_cb_uri", OneTapController, :login
+  end
+
+  scope "/", ThisplayWeb do
+    pipe_through :browser
 
     get("/uploads/:image", ImageController, :uploads)
   end
@@ -31,9 +43,6 @@ defmodule ThisplayWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api", ThisplayWeb do
     pipe_through :api
-
-    resources "/filename", DocumentController, except: [:new, :edit]
-    resources "/toys", ToyController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
@@ -49,7 +58,37 @@ defmodule ThisplayWeb.Router do
       pipe_through :browser
 
       live_dashboard "/dashboard", metrics: ThisplayWeb.Telemetry
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
+  end
+
+  ## Authentication routes
+
+  scope "/", ThisplayWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    live_session :redirect_if_user_is_authenticated,
+      on_mount: [{ThisplayWeb.UserAuth, :redirect_if_user_is_authenticated}] do
+      live "/landing", LandingLive
+    end
+  end
+
+  scope "/", ThisplayWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :require_authenticated_user,
+      on_mount: [{ThisplayWeb.UserAuth, :ensure_authenticated}] do
+      live "/", HomeLive
+      live "/list", ListLive
+      live "/upload/:id", UploadLive
+      live "/toys/:id", ToysLive
+      live "/search", SearchLive
+      live "/detail/:id", DetailLive
+    end
+  end
+
+  scope "/", ThisplayWeb do
+    pipe_through [:browser]
+
+    delete "/users/log_out", UserSessionController, :delete
   end
 end

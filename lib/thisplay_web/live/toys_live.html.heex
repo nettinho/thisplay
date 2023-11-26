@@ -1,0 +1,76 @@
+<div class="content">
+  <.link href={~p"/"} class="header">
+    <div class="logo"><img src="/images/logo.svg" alt="" /></div>
+  </.link>
+  <div class="volver"><img src="/images/regresar.svg" alt="" onclick="goBack()" /></div>
+  <div class="tituloupload">
+    Elija un nombre para cada juguete nuevo o confirme las correspondencias encontradas
+  </div>
+  <div class="upload2">
+    <div :for={toy_picture <- @document.toy_pictures}>
+      <img src={public_src(toy_picture.filename)} />
+
+      <div>
+        <span class="textsmall">Status: <%= toy_picture.status %></span>
+        <div :if={toy_picture.status != "done"}>
+          Procesando
+        </div>
+        <div :if={toy_picture.status == "done"}>
+          <%!-- <span><%= toy_picture.name %></span> --%>
+          <form phx-blur="changed" phx-value-toy={toy_picture.id}>
+            <input
+              name="name"
+              phx-blur="changed"
+              phx-value-toy={toy_picture.id}
+              value={toy_picture.name}
+            />
+          </form>
+        </div>
+
+        <div :if={toy_picture.similars} class="similars">
+          <div
+            class="similar"
+            phx-value-toy={toy_picture.id}
+            phx-click="clear_suggestion"
+            title="Añadir nuevo"
+          >
+            <img
+              class={"similar-photo #{if is_nil(toy_picture.source), do: "selected", else: ""}"}
+              src="/images/plus.svg"
+              alt=""
+            />
+          </div>
+          <div
+            :for={similar <- toy_picture.similars}
+            class="similar"
+            phx-value-suggestion={similar["toy_id"]}
+            phx-value-name={similar["name"]}
+            phx-value-toy={toy_picture.id}
+            phx-click="select_suggestion"
+            title={similar["name"]}
+          >
+            <img
+              class={"similar-photo #{if toy_picture.source == similar["toy_id"], do: "selected", else: ""}"}
+              src={public_src(similar["filename"])}
+              alt=""
+            />
+            <%!-- <span><%= similar["name"] %></span> --%>
+          </div>
+        </div>
+
+        <%!-- <button class="debugbutton" phx-click="process_toy" phx-value-toy={toy_picture.id}>
+          PROCESAR
+        </button>
+        <button class="debugbutton" phx-click="reset_toy" phx-value-toy={toy_picture.id}>
+          RESET
+        </button> --%>
+      </div>
+    </div>
+  </div>
+  <button phx-click="next">ACEPTAR</button>
+</div>
+<script>
+  function goBack() {
+      window.history.back(); // Esta línea navegará hacia atrás en la historia del navegador
+  }
+</script>

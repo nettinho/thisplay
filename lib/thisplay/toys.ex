@@ -7,6 +7,7 @@ defmodule Thisplay.Toys do
   alias Thisplay.Repo
 
   alias Thisplay.Toys.Toy
+  alias Thisplay.Toys.ToyPicture
 
   @doc """
   Returns the list of toys.
@@ -19,6 +20,13 @@ defmodule Thisplay.Toys do
   """
   def list_toys do
     Repo.all(Toy)
+  end
+
+  def list_toys_by_user(user_id) do
+    Toy
+    |> where([t], t.user_id == ^user_id)
+    |> Repo.all()
+    |> Repo.preload(:toy_pictures)
   end
 
   @doc """
@@ -50,17 +58,41 @@ defmodule Thisplay.Toys do
 
   """
   def create_toy(attrs \\ %{}) do
-    # IO.inspect(attrs)
-
-    # toy_exists? =
-    #   %Toy{}
-    #   |> Repo.get(:name, Map.get(attrs, :name))
-
     %Toy{}
     |> Toy.changeset(attrs)
     |> Repo.insert()
-    |> dbg()
+    |> broadcast_toy_created()
   end
+
+  def put_toy_from_picture(%ToyPicture{source: nil} = picture) do
+    %Toy{}
+    |> Toy.changeset(%{name: picture.name, user_id: picture.user_id})
+    |> Repo.insert()
+    |> maybe_update_toy_picture(picture)
+  end
+
+  def put_toy_from_picture(%ToyPicture{source: source} = picture) do
+    update_toy_picture(picture, %{toy_id: source})
+  end
+
+  defp maybe_update_toy_picture({:ok, %{id: id}} = result, picture) do
+    update_toy_picture(picture, %{toy_id: id})
+    result
+  end
+
+  defp maybe_update_toy_picture(error, _), do: error
+
+  defp broadcast_toy_created({:ok, %{document_id: doc_id}} = result) do
+    document =
+      doc_id
+      |> get_document!()
+      |> Repo.preload(:toys)
+
+    broadcast_document({:ok, document}, :update)
+    result
+  end
+
+  defp broadcast_toy_created(error), do: error
 
   @doc """
   Updates a toy.
@@ -138,7 +170,7 @@ defmodule Thisplay.Toys do
       ** (Ecto.NoResultsError)
 
   """
-  def get_document!(id), do: Repo.get!(Document, id) |> Repo.preload(:toys)
+  def get_document!(id), do: Repo.get!(Document, id) |> preload_toy_pictures
 
   @doc """
   Creates a document.
@@ -156,6 +188,7 @@ defmodule Thisplay.Toys do
     %Document{}
     |> Document.changeset(attrs)
     |> Repo.insert()
+    |> broadcast_document(:create)
   end
 
   @doc """
@@ -174,6 +207,7 @@ defmodule Thisplay.Toys do
     document
     |> Document.changeset(attrs)
     |> Repo.update()
+    |> broadcast_document(:update)
   end
 
   @doc """
@@ -204,4 +238,56 @@ defmodule Thisplay.Toys do
   def change_document(%Document{} = document, attrs \\ %{}) do
     Document.changeset(document, attrs)
   end
+
+  defp broadcast_document({:ok, %{id: id}}, action) do
+    document =
+      id
+      |> get_document!()
+      |> preload_toy_pictures()
+
+    Phoenix.PubSub.broadcast!(Thisplay.PubSub, "documents", {action, document})
+    {:ok, document}
+  end
+
+  defp broadcast_document(error, _), do: error
+
+  def create_toy_picture(attrs \\ %{}) do
+    %ToyPicture{}
+    |> ToyPicture.changeset(attrs)
+    |> Repo.insert()
+    |> broadcast_toy_picture_created()
+  end
+
+  def update_toy_picture(toy_picture, attrs \\ %{}) do
+    toy_picture
+    |> ToyPicture.changeset(attrs)
+    |> Repo.update()
+    |> broadcast_toy_picture_created()
+  end
+
+  def delete_toy_picture(%ToyPicture{} = toy_picture) do
+    result = Repo.delete(toy_picture)
+
+    broadcast_toy_picture_created({:ok, toy_picture})
+
+    result
+  end
+
+  def get_toy_picture!(id), do: Repo.get!(ToyPicture, id)
+
+  defp preload_toy_pictures(query) do
+    Repo.preload(query, toy_pictures: from(t in ToyPicture, order_by: t.id))
+  end
+
+  defp broadcast_toy_picture_created({:ok, %{document_id: doc_id}} = result) do
+    document =
+      doc_id
+      |> get_document!()
+      |> preload_toy_pictures
+
+    broadcast_document({:ok, document}, :update)
+    result
+  end
+
+  defp broadcast_toy_picture_created(error), do: error
 end

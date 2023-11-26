@@ -7,6 +7,13 @@ defmodule Thisplay.Application do
 
   @impl true
   def start(_type, _args) do
+    credentials =
+      System.get_env("G_CREDS")
+      |> Base.decode64!()
+      |> Jason.decode!()
+
+    source = {:service_account, credentials}
+
     children = [
       ThisplayWeb.Telemetry,
       Thisplay.Repo,
@@ -14,6 +21,9 @@ defmodule Thisplay.Application do
       {Phoenix.PubSub, name: Thisplay.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Thisplay.Finch},
+      Thisplay.Processor,
+      {Goth, name: Thisplay.Goth, source: source},
+
       # Start a worker by calling: Thisplay.Worker.start_link(arg)
       # {Thisplay.Worker, arg},
       # Start to serve requests, typically the last entry

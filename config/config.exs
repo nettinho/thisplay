@@ -11,6 +11,8 @@ config :thisplay,
   ecto_repos: [Thisplay.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+config :thisplay, Thisplay.Repo, types: Thisplay.PostgrexTypes
+
 # Configures the endpoint
 config :thisplay, ThisplayWeb.Endpoint,
   url: [host: "0.0.0.0"],

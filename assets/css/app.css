@@ -123,8 +123,16 @@ button{
 .top{
     display: flex;
     flex-flow: row wrap;
-    padding-bottom: 100px;
+    padding-bottom: 20px;
     justify-content: center;
+}
+
+.top-not-fav{
+    display: flex;
+    flex-flow: row wrap;
+    padding-bottom: 20px;
+    justify-content: center;
+    gap: 5px;
 }
 .tier{
     padding-top: 40px
@@ -143,7 +151,10 @@ button{
 }
 .toy{
     width: 200px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+}
+.toy-not-fav{
+    margin-bottom: 5px;
 }
 .foto{
     width: 100px;
@@ -159,7 +170,18 @@ button{
 .posicion{
     text-align: center;
     font-size: 34px;
-    font-weight: 900
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.posicion > span{
+    margin-left: 5px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    width: 55px;
 }
 .dos{
     text-align: center;
@@ -321,13 +343,70 @@ button{
 .upload{
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: end;
+}
+
+.upload2 img{
+    width: 180px;
+}
+.upload2 > div{
+    /* width: 180px;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    position: relative; */
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
+
+    justify-content: space-around;
+    gap: 20px;
+    border-bottom: 2px dashed black;
+
+}
+.upload2 :last-child{
+    border-bottom: 0;
+}
+
+.upload2 > div > div{
+    display: flex;
+    flex-direction: column;
+}
+.upload2{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    /* align-items: end; */
+    flex-direction: column;
 }
 .tituloupload{
     font-size: 24px;
     font-weight: 600;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
+}
+
+.subtituloupload {
+    font-size: 20px;
+    font-weight: 500;
+    padding-bottom: 10px;
+}
+
+.disclaimeroupload{
+    font-size: 13px;
+    font-weight: 300;
+    padding-bottom: 10px;
+    font-style: italic;
+}
+
+
+.textsmall{
+    font-size: 14px;
+    font-weight: 300;
 }
 .borrar{
     position: absolute;
@@ -337,6 +416,7 @@ button{
     width: 20px !important;
     background-color: #fff;
     border-radius: 120px;
+    cursor: pointer;
 }
 /* Mobile */
 
@@ -364,6 +444,35 @@ button{
         
     }
     .toy{
-        width: 50%;
+        width: 100%;
     }
+}
+
+.debugbutton {
+  display: block !important;
+  margin: 2px !important;
+  border-radius: 10px !important;
+  border: 1px solid !important;
+  font-size: 14px !important;
+  font-weight: 300 !important;
+}
+
+
+.similars {
+    display: flex;
+    gap: 5px;
+}
+
+.similar {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+.selected {
+    border: 5px solid #fdaf00;
+}
+.similar-photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 60px;
 }

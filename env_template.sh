@@ -1,0 +1,9 @@
+  export THISPLAY_GOOGLE_API_KEY=xxx
+  export THISPLAY_GCP_LOCATION=xxx
+  export THISPLAY_GCP_PROJECT_ID=xxx
+  export THISPLAY_GCP_INDEX_ID=xxx
+  export THISPLAY_GCP_TOKEN=xxx
+  export GOOGLE_CLIENT_ID=xxx
+  export GOOGLE_OAUTH_SECRET=xxx
+  export G_CREDS=xxx
+  export GOOGLE_REDIRECT=xxx

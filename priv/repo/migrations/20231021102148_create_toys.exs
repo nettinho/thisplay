@@ -3,10 +3,10 @@ defmodule Thisplay.Repo.Migrations.CreateToys do
 
   def change do
     create table(:toys) do
-      add :document_id, references(:documents, on_delete: :delete_all), null: false
       add :name, :string
-      add :filename, :string
       add :frequency, :integer
+      add :user_id, :integer
+
       timestamps(type: :utc_datetime)
     end
   end

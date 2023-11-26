@@ -1,25 +1,34 @@
 defmodule GoogleVisionAPI do
-  @api_key Application.compile_env(:thisplay, GoogleVisionAPI, :api_key)
-  @google_vision_api_url "https://vision.googleapis.com/v1/images:annotate?key=#{@api_key}"
+  @google_vision_api_url "https://vision.googleapis.com/v1/images:annotate"
 
   def detect_objects(image_path) do
     # Leer y codificar la imagen en base64
-    image_content = File.read!(image_path) |> Base.encode64()
+    # image_content = File.read!(image_path) |> Base.encode64()
 
     # Crear el cuerpo de la solicitud
     body = %{
       requests: [
         %{
-          image: %{content: image_content},
+          # image: %{content: image_content},
+          image: %{
+            source: %{
+              imageUri: "gs://thisplay/#{image_path}"
+            }
+          },
           features: [%{type: "OBJECT_LOCALIZATION", maxResults: 10}]
         }
       ]
     }
 
+    # api_key = Application.get_env(:thisplay, GoogleVisionAPI)[:api_key]
+
+    %Goth.Token{token: api_key} = Goth.fetch!(Thisplay.Goth)
+
     # Hacer la solicitud POST a la API de Google Cloud Vision
     response =
       HTTPoison.post!(@google_vision_api_url, Jason.encode!(body), [
-        {"Content-Type", "application/json"}
+        {"Content-Type", "application/json"},
+        {"Authorization", "Bearer #{api_key}"}
       ])
 
     # Manejar la respuesta

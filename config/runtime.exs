@@ -20,8 +20,15 @@ if System.get_env("PHX_SERVER") do
   config :thisplay, ThisplayWeb.Endpoint, server: true
 end
 
-config :thisplay, GoogleVisionAPI,
-  api_key: System.get_env("THISPLAY_GOOGLE_API_KEY") || "<YOUR API KEY HERE>"
+# config :thisplay, GoogleVisionAPI,
+#   api_key: System.get_env("THISPLAY_GOOGLE_API_KEY")
+
+config :thisplay, VertexAI,
+  location: "europe-west1-a",
+  project_id: "novahack2023"
+
+# index_id: "4777809031244808192",
+# token: System.get_env("THISPLAY_GCP_TOKEN")
 
 if config_env() == :prod do
   database_url =
